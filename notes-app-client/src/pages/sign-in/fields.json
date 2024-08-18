@@ -1,0 +1,15 @@
+[
+    {
+        "name": "email",
+        "placeholder": "Enter your email",
+        "icon": "/src/assets/email-bulk.svg",
+        "required": true,
+        "pattern": "^[\\w.\\-]+@[a-zA-Z\\d.\\-]+\\.[a-zA-Z]{2,}$"
+    },
+    {
+        "name": "password",
+        "placeholder": "Enter password",
+        "icon": "/src/assets/password-bulk.svg",
+        "required": true
+    }
+]
