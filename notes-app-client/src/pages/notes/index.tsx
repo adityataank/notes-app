@@ -1,12 +1,11 @@
-import { Button } from "@/components/ui/button"
-
+import Notes from "@/components/layout-components/notes";
 
 function NotesPage() {
   return (
-    <div>NotesPage
-        <Button>Button</Button>
+    <div className="h-full">
+      <Notes />
     </div>
-  )
+  );
 }
 
-export default NotesPage
+export default NotesPage;

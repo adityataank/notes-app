@@ -1,0 +1,1 @@
+export const FREE_ROUTES = ['/sign-in', '/sign-up', '/reset-password']

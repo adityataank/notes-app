@@ -4,6 +4,7 @@
         "title": "Name",
         "placeholder": "Your name",
         "icon": "/src/assets/user-bulk.svg",
+        "type": "text",
         "required": true
     },
     {
@@ -12,6 +13,7 @@
         "placeholder": "Your email",
         "icon": "/src/assets/email-bulk.svg",
         "required": true,
+        "type": "email",
         "pattern": "^[\\w.\\-]+@[a-zA-Z\\d.\\-]+\\.[a-zA-Z]{2,}$"
     },
     {
@@ -19,6 +21,7 @@
         "title": "Password",
         "placeholder": "Password",
         "icon": "/src/assets/password-bulk.svg",
+        "type": "password",
         "required": true
     },
     {
@@ -26,6 +29,7 @@
         "title": "Name",
         "placeholder": "Confirm Password",
         "icon": "/src/assets/password-bulk.svg",
+        "type": "password",
         "required": true
     }
 ]

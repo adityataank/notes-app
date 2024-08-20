@@ -17,6 +17,7 @@ const Image = ({
         width: layout === "responsive" ? "100%" : width,
         height: layout === "responsive" ? "auto" : height,
       }}
+      loading="lazy"
       {...rest}
     />
   );

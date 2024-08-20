@@ -1,4 +1,4 @@
-import SignIn from "@/components/common/sign-in";
+import SignIn from "@/components/layout-components/sign-in";
 
 function SignInPage() {
   return (
