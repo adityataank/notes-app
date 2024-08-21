@@ -1,4 +1,5 @@
 import { Children } from "react";
+import { Link, useParams } from "react-router-dom";
 
 import { FolderProps } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -14,25 +15,28 @@ const DUMMY_DATA: string[] = [
 ];
 
 function Folders() {
+  const { folder } = useParams();
   const Folder = ({ label }: FolderProps) => {
-    const isSelected = label === "all";
+    const isSelected = folder ? label === folder : label === "all";
     return (
-      <div
+      <Link
+        replace
+        to={`/notes/folder/${label}`}
         className={cn(
           "cursor-pointer px-[12px] border border-[#e2e2e2] rounded-lg text-xs font-semibold capitalize snap-center h-7 grid place-items-center",
           isSelected && "bg-[#2c2c2c] border-none text-white"
         )}
       >
         {label}
-      </div>
+      </Link>
     );
   };
 
-  return (
+  return DUMMY_DATA.length ? (
     <div className="mt-6 flex gap-3 overflow-auto snap-mandatory snap-x no-scrollbar">
       {Children.toArray(DUMMY_DATA.map((folder) => <Folder label={folder} />))}
     </div>
-  );
+  ) : null;
 }
 
 export default Folders;

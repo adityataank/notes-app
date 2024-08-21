@@ -5,7 +5,6 @@ import { isProtectedRoute } from "@/lib/auth";
 import { cookies } from "@/lib/cookies";
 
 function Layout() {
-
   const [renderOutlet, setRenderOutlet] = useState<boolean>(false);
   const { pathname } = useLocation();
   const navigate = useNavigate();

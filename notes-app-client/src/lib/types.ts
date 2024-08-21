@@ -31,4 +31,20 @@ export type SignInForm = {
 
 export type FolderProps = {
   label: string;
+};
+
+export type HeaderProps = {
+  type?: string;
+  showSave?: boolean;
+  onBack?: () => void;
+  onSave?: () => void;
+};
+
+export type NoteProps = {
+  value: string;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+};
+
+export type SearchProps = {
+  disabled?: boolean;
 }
