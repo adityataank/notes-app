@@ -24,7 +24,7 @@ function Layout() {
     }
   }, [pathname, navigate, renderOutlet]);
 
-  return <div className="h-dvh">{renderOutlet && <Outlet />}</div>;
+  return <div className="h-dvh max-w-3xl mx-auto md:border md:border-x-primary/20">{renderOutlet && <Outlet />}</div>;
 }
 
 export default Layout;

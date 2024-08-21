@@ -24,7 +24,7 @@ function Folders() {
         to={`/notes/folder/${label}`}
         className={cn(
           "cursor-pointer px-[12px] border border-[#e2e2e2] rounded-lg text-xs font-semibold capitalize snap-center h-7 grid place-items-center",
-          isSelected && "bg-[#2c2c2c] border-none text-white"
+          isSelected && "bg-primary border-none text-white"
         )}
       >
         {label}

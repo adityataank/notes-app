@@ -8,6 +8,7 @@ import NotesLayout from "./pages/layout/notes-layout";
 import NotesPage from "./pages/notes/notes";
 import FilteredNotes from "./pages/notes/filtered-notes";
 import NewNotePage from "./pages/notes/new-note";
+import NotePage from "./pages/notes/note";
 
 function App() {
   return (
@@ -19,7 +20,7 @@ function App() {
             <Route index element={<NotesPage />} />
             <Route path="folder/:folder" element={<FilteredNotes />} />
             <Route path="new" element={<NewNotePage />} />
-            <Route path=":id" element={<>Note for id</>} />
+            <Route path=":id" element={<NotePage />} />
           </Route>
           <Route path="sign-in" element={<SignInPage />} />
           <Route path="sign-up" element={<SignUpPage />} />

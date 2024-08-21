@@ -7,16 +7,24 @@ import AlertDrawer from "@/components/layout-components/alert-drawer";
 
 import { useGoBack } from "@/lib/hooks/useGoBack";
 
-function NewNotePage() {
+function NotePage() {
   const [note, setNote] = useState({
-    title: "",
-    content: "",
+    title: "Engineer",
+    content: "I did engineering from Chennai",
   });
+
   const [openAlert, setOpenAlert] = useState(false);
 
   const goBack = useGoBack();
 
-  const showSave = Boolean(note.title.trim() || note.content.trim());
+  const initialNote = {
+    title: "Engineer",
+    content: "I did engineering from Chennai",
+  };
+
+  const isDirty = Boolean(
+    note.title !== initialNote.title || note.content !== initialNote.content
+  );
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -28,7 +36,7 @@ function NewNotePage() {
     }
   };
 
-  const onBack = () => (showSave ? setOpenAlert(true) : goBack());
+  const onBack = () => (isDirty ? setOpenAlert(true) : goBack());
 
   const saveNote = () => {
     alert("save note");
@@ -36,23 +44,22 @@ function NewNotePage() {
 
   return (
     <div className="flex flex-col gap-6 h-[calc(100dvh-6rem)]">
-      <Header
-        type="note"
-        title="Add a new note"
-        onBack={onBack}
-        showSave={showSave}
-        onSave={saveNote}
-      />
       <AlertDrawer
         open={openAlert}
         setOpen={setOpenAlert}
         description="Going back will discard any unsaved changes."
         onConfirmation={goBack}
       />
-      <NoteTitle value={note.title} handleChange={handleChange} autoFocus />
+      <Header
+        type="note"
+        showSave={isDirty}
+        onBack={onBack}
+        onSave={saveNote}
+      />
+      <NoteTitle value={note.title} handleChange={handleChange} />
       <NoteContent value={note.content} handleChange={handleChange} />
     </div>
   );
 }
 
-export default NewNotePage;
+export default NotePage;

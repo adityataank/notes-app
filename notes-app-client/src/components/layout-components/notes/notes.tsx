@@ -14,7 +14,7 @@ type ColumnProps = {
 
 const EmptyNotes = () => (
   <div className="h-[calc(100dvh-12.5rem)]  grid pt-56 ">
-    <p className=" text-center font-semibold text-sm">
+    <p className="text-center font-semibold text-sm text-black">
       Looks like you haven’t jotted anything down yet.
       <br />
       Add a note to get started!
@@ -24,7 +24,7 @@ const EmptyNotes = () => (
       width={90}
       height={90}
       alt="arrow-pointer"
-      className="fixed bottom-24 right-20"
+      className="fixed bottom-24 right-20 md:right-[calc((100vw-768px)/2+5rem)]"
     />
   </div>
 );
@@ -36,18 +36,23 @@ const Column = ({ type }: ColumnProps) => {
       {Children.toArray(
         Array(20)
           .fill(0)
-          .map((_, index) => Boolean(index % 2) === condition && <Note />)
+          .map(
+            (_, index) =>
+              Boolean(index % 2) === condition && (
+                <Note id={index} title="" content="" />
+              )
+          )
       )}
     </div>
   );
 };
 
-const SHOW_NOTES = true; // HARD CODED !!!
+const SHOW_NOTES = false; // HARD CODED !!!
 
 function Notes() {
   return (
     <div className="">
-      <Search disabled={!SHOW_NOTES}/>
+      <Search disabled={!SHOW_NOTES} />
       {/* <Folders /> */}
       {SHOW_NOTES ? (
         <div className="mt-6 grid grid-cols-2 gap-4 overflow-auto h-[calc(100dvh-12.5rem)] rounded-2xl pb-24 no-scrollbar">

@@ -8,7 +8,7 @@ function Search({ disabled = false }: SearchProps) {
   return (
     <div
       className={cn(
-        "w-full h-11 flex items-center rounded-xl relative border border-[#2c2c2c50]",
+        "w-full h-11 flex items-center rounded-xl relative border border-primary/50",
         disabled && "cursor-not-allowed bg-[#f0f0f0] shadow-none border-none"
       )}
     >

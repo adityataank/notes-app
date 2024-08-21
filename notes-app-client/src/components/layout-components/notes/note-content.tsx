@@ -1,6 +1,10 @@
-import { NoteProps } from "@/lib/types";
+import { NewNoteProps } from "@/lib/types";
 
-function NoteContent({ value = "", handleChange = () => {} }: NoteProps) {
+function NoteContent({
+  value = "",
+  handleChange = () => {},
+  autoFocus = false,
+}: NewNoteProps) {
   return (
     <textarea
       spellCheck={false}
@@ -8,6 +12,7 @@ function NoteContent({ value = "", handleChange = () => {} }: NoteProps) {
       name="content"
       value={value}
       onChange={handleChange}
+      autoFocus={autoFocus}
       className="resize-none outline-none w-full h-full font-medium placeholder:font-semibold"
     />
   );

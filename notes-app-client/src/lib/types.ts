@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 
 export type ImageProps = React.ImgHTMLAttributes<HTMLImageElement> & {
   src: string;
@@ -34,17 +34,35 @@ export type FolderProps = {
 };
 
 export type HeaderProps = {
-  type?: string;
+  type?: "note" | "default";
+  title?: string;
   showSave?: boolean;
   onBack?: () => void;
   onSave?: () => void;
 };
 
-export type NoteProps = {
+export type NewNoteProps = {
   value: string;
-  handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  autoFocus?: boolean;
+  handleChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
 };
 
 export type SearchProps = {
   disabled?: boolean;
-}
+};
+
+export type NoteProps = {
+  title: string;
+  content: string;
+  id: number;
+};
+
+export type AlertDrawerProps = {
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+  title?: string;
+  description: string;
+  onConfirmation: () => void;
+};

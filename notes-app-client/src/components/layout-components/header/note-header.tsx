@@ -1,20 +1,21 @@
-import { useNavigate } from "react-router-dom";
-
 import Image from "@/components/ui/image";
 
 import BackIcon from "@/assets/back-linear.svg";
 import TickIcon from "@/assets/tick.svg";
+
 import { HeaderProps } from "@/lib/types";
 import { cn } from "@/lib/utils";
+import { useGoBack } from "@/lib/hooks/useGoBack";
 
-function NewNoteHeader({
+function NoteHeader({
   onBack,
   showSave = false,
   onSave = () => {},
+  title = "",
 }: HeaderProps) {
-  const navigate = useNavigate();
+  const back = useGoBack();
 
-  const goBack = () => (onBack ? onBack() : navigate(-1));
+  const goBack = () => (onBack ? onBack() : back());
 
   return (
     <>
@@ -26,7 +27,7 @@ function NewNoteHeader({
         className="cursor-pointer"
         onClick={goBack}
       />
-      <h2 className="text-black text-base font-semibold">Add a new note</h2>
+      <h2 className="text-black text-base font-semibold">{title}</h2>
       <Image
         src={TickIcon}
         width={24}
@@ -42,4 +43,4 @@ function NewNoteHeader({
   );
 }
 
-export default NewNoteHeader;
+export default NoteHeader;

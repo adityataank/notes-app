@@ -1,7 +1,7 @@
 import React from "react";
 
 import DefaultHeader from "./default-header";
-import NewNoteHeader from "./new-note-header";
+import NoteHeader from "./note-header";
 
 import { HeaderProps } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -22,8 +22,8 @@ function Header(props: HeaderProps) {
       component: <DefaultHeader />,
       className: "",
     },
-    new: {
-      component: <NewNoteHeader {...props} />,
+    note: {
+      component: <NoteHeader {...props} />,
       className: "justify-start gap-6",
     },
   };
@@ -33,7 +33,7 @@ function Header(props: HeaderProps) {
   return (
     <div
       className={cn(
-        "fixed top-0 left-0 right-0 w-full h-16 flex justify-between items-center px-7 pb-0",
+        "fixed top-0 left-0 right-0 w-full max-w-3xl h-16 flex justify-between items-center px-7 pb-0 md:left-1/2 md:-translate-x-1/2",
         className
       )}
     >
