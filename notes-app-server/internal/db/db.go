@@ -10,6 +10,7 @@ import (
 type DB struct {
 	Db   *sql.DB
 	User *UserReopsitory
+	Note *NoteRepository
 }
 
 var Storage = &DB{}

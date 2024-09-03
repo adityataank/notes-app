@@ -1,23 +1,102 @@
 package handler
 
 import (
-	"fmt"
+	"database/sql"
+	"errors"
 	"net/http"
 
-	"github.com/adityataank/notes-app/internal/middleware"
+	"github.com/adityataank/notes-app/internal/db"
+	"github.com/adityataank/notes-app/internal/models"
+	"github.com/adityataank/notes-app/pkg/auth"
+	"github.com/adityataank/notes-app/pkg/helpers"
+	"github.com/adityataank/notes-app/pkg/logger"
 )
 
-func GetAllNotes(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Get all notes")
+func GetNotes(w http.ResponseWriter, r *http.Request) {
+	userId := auth.GetUserFromRequest(r)
+	notes, err := db.Storage.Note.GetNotes(userId)
+	if err != nil {
+		helpers.WriteError(w, http.StatusInternalServerError, "Unable to fetch notes.")
+	}
+	response := map[string]any{"notes": notes}
+	helpers.WriteJSON(w, http.StatusOK, response)
+
 }
 
 func CreateNote(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Create new note")
+	notesPayload := &models.Notes{}
+	userId := auth.GetUserFromRequest(r)
+	err := helpers.ReadJSON(w, r, notesPayload)
+	if err != nil {
+		return
+	}
+	if !notesPayload.ValidateMandatoryFields() {
+		helpers.WriteError(w, http.StatusBadRequest, "Title can not be empty")
+		return
+	}
+	err = db.Storage.Note.CreateNote(notesPayload, userId)
+	if err != nil {
+		logger.ErrorLog(err.Error())
+		helpers.WriteError(w, http.StatusInternalServerError, "Unable to create a note.")
+		return
+	}
+
+	helpers.WriteSuccessMessage(w, "Note created successfully!")
 }
 
 func GetNote(w http.ResponseWriter, r *http.Request) {
-	id := r.PathValue("id")
-	userID := r.Context().Value(middleware.CtxUserId)
+	id, err := helpers.GetParamsValue(w, r, "id")
+	if err != nil {
+		return
+	}
+	userID := auth.GetUserFromRequest(r)
 
-	fmt.Fprintf(w, "get a note with id: %s for user: %d", id, userID)
+	note, err := db.Storage.Note.GetNoteById(id, userID)
+
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			helpers.WriteJSON(w, http.StatusNotFound, note)
+		} else {
+			logger.ErrorLog(err.Error())
+			helpers.WriteError(w, http.StatusInternalServerError, "Unable to fetch note.")
+		}
+		return
+	}
+
+	helpers.WriteJSON(w, http.StatusOK, note)
+}
+
+func UpdateNote(w http.ResponseWriter, r *http.Request) {
+	id, err := helpers.GetParamsValue(w, r, "id")
+	if err != nil {
+		return
+	}
+	userId := auth.GetUserFromRequest(r)
+	payload := &models.Notes{}
+	err = helpers.ReadJSON(w, r, payload)
+	if err != nil {
+		return
+	}
+	err = db.Storage.Note.UpdateNoteById(payload, id, userId)
+	if err != nil {
+		logger.ErrorLog(err.Error())
+		helpers.WriteError(w, http.StatusInternalServerError, "Unable to update this note.")
+		return
+	}
+	helpers.WriteSuccessMessage(w, "Note updated successfully!")
+}
+
+func DeleteNote(w http.ResponseWriter, r *http.Request) {
+	id, err := helpers.GetParamsValue(w, r, "id")
+	if err != nil {
+		return
+	}
+	userId := auth.GetUserFromRequest(r)
+	err = db.Storage.Note.DeleteNoteById(id, userId)
+	if err != nil {
+		logger.ErrorLog(err.Error())
+		helpers.WriteError(w, http.StatusInternalServerError, "Unable to delete this note.")
+		return
+	}
+	helpers.WriteSuccessMessage(w, "Note deleted successfully!")
 }

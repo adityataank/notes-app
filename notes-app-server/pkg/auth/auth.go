@@ -2,8 +2,10 @@ package auth
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/adityataank/notes-app/internal/models"
+	"github.com/adityataank/notes-app/pkg/constants"
 	"github.com/adityataank/notes-app/pkg/logger"
 	"github.com/golang-jwt/jwt/v5"
 )
@@ -46,4 +48,9 @@ func VerifyToken(tokenString string) (*Claims, error) {
 	}
 
 	return claims, nil
+}
+
+func GetUserFromRequest(r *http.Request) int {
+	userId := r.Context().Value(constants.CTX_USER_ID)
+	return userId.(int)
 }

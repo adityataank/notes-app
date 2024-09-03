@@ -7,13 +7,10 @@ import (
 	"unicode/utf8"
 
 	"github.com/adityataank/notes-app/pkg/auth"
+	"github.com/adityataank/notes-app/pkg/constants"
 	"github.com/adityataank/notes-app/pkg/helpers"
 	"github.com/adityataank/notes-app/pkg/logger"
 )
-
-type key int
-
-const CtxUserId key = iota
 
 func getTokenValue(header *http.Header) string {
 	if utf8.RuneCountInString(header.Get("authorization")) == 0 {
@@ -34,7 +31,7 @@ func AuthMiddleware(next http.Handler) http.Handler {
 				helpers.WriteError(w, http.StatusUnauthorized, "Unauthorized access")
 				return
 			}
-			ctx := context.WithValue(r.Context(), CtxUserId, claims.UserId)
+			ctx := context.WithValue(r.Context(), constants.CTX_USER_ID, claims.UserId)
 			next.ServeHTTP(w, r.WithContext(ctx))
 		}
 	})

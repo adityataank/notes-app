@@ -23,7 +23,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if !userPayload.ValidateMandatoryFields() {
-		helpers.WriteError(w, http.StatusBadRequest, "Mandatory fields can not be empty")
+		helpers.WriteError(w, http.StatusBadRequest, "Mandatory fields can not be empty.")
 		return
 	}
 
@@ -31,16 +31,16 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		if pqErr, ok := err.(*pq.Error); ok {
 			if pqErr.Code == constants.UniqueViolationCode {
-				helpers.WriteError(w, http.StatusConflict, fmt.Sprintf("email %s already exists", userPayload.Email))
+				helpers.WriteError(w, http.StatusConflict, fmt.Sprintf("email %s already exists.", userPayload.Email))
 			}
 		} else {
 			logger.ServerError(err)
-			helpers.WriteError(w, http.StatusInternalServerError, err.Error())
+			helpers.WriteError(w, http.StatusInternalServerError, "Failed to create user.")
 		}
 		return
 	}
 
-	helpers.WriteJSON(w, http.StatusCreated, map[string]string{"message": "User created successfully"})
+	helpers.WriteSuccessMessage(w, "User created successfully!")
 }
 
 func LoginUser(w http.ResponseWriter, r *http.Request) {
@@ -51,28 +51,32 @@ func LoginUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if !loginPayload.ValidateMandatoryFields() {
-		helpers.WriteError(w, http.StatusBadRequest, "Mandatory fields can not be empty")
+		helpers.WriteError(w, http.StatusBadRequest, "Mandatory fields can not be empty.")
 		return
 	}
 
 	user, err := db.Storage.User.GetUserByEmail(loginPayload.Email)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			helpers.WriteError(w, http.StatusNotFound, fmt.Sprintf("User with email %s does not exist", loginPayload.Email))
+			helpers.WriteError(w, http.StatusNotFound, fmt.Sprintf("User with email %s does not exist.", loginPayload.Email))
 		} else {
-			helpers.WriteError(w, http.StatusInternalServerError, err.Error())
+			helpers.WriteError(w, http.StatusInternalServerError, "Unable to log in.")
 		}
 		return
 	}
 	err = bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(loginPayload.PasswordPlain))
 	if err != nil {
-		helpers.WriteError(w, http.StatusUnauthorized, "Password did not match with this email")
+		helpers.WriteError(w, http.StatusUnauthorized, "Password did not match with this email.")
 		return
 	}
 	token, err := auth.GenerateToken(user)
 	if err != nil {
-		helpers.WriteError(w, http.StatusInternalServerError, "Failed to generate token")
+		helpers.WriteError(w, http.StatusInternalServerError, "Failed to generate token.")
 		return
 	}
-	helpers.WriteJSON(w, http.StatusOK, token)
+
+	response := make(map[string]string)
+	response["message"] = "Logged in successfully!"
+	response["token"] = token
+	helpers.WriteJSON(w, http.StatusOK, response)
 }
