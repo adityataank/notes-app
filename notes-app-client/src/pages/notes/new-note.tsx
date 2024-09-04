@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 import Header from "@/components/layout-components/header";
 import NoteContent from "@/components/layout-components/notes/note-content";
@@ -6,6 +8,10 @@ import NoteTitle from "@/components/layout-components/notes/note-title";
 import AlertDrawer from "@/components/layout-components/alert-drawer";
 
 import { useGoBack } from "@/lib/hooks/useGoBack";
+import { REQUEST } from "@/lib/requests/request";
+import { API_ENDPOINTS } from "@/lib/requests/routes";
+
+import { useNoteStore } from "@/store/note-store";
 
 function NewNotePage() {
   const [note, setNote] = useState({
@@ -14,7 +20,11 @@ function NewNotePage() {
   });
   const [openAlert, setOpenAlert] = useState(false);
 
+  const { fetchAndSetNotes } = useNoteStore();
+
   const goBack = useGoBack();
+
+  const navigate = useNavigate();
 
   const showSave = Boolean(note.title.trim() || note.content.trim());
 
@@ -30,8 +40,17 @@ function NewNotePage() {
 
   const onBack = () => (showSave ? setOpenAlert(true) : goBack());
 
-  const saveNote = () => {
-    alert("save note");
+  const saveNote = async () => {
+    try {
+      const url = API_ENDPOINTS.notes();
+      const response = await REQUEST.post(url, note);
+      fetchAndSetNotes();
+      navigate("/notes");
+      toast.success(response?.message ?? "Note created successfully!");
+    } catch (err) {
+      toast.error("Failed to create note.");
+      console.log(err);
+    }
   };
 
   return (

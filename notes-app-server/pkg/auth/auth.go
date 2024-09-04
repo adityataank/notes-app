@@ -66,8 +66,8 @@ func CheckApiKey(r *http.Request) bool {
 }
 
 func EnableCors(w http.ResponseWriter, r *http.Request) bool {
-	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
-	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Api-Key, Content-Type, Authorization")
 	if r.Method == "OPTIONS" {
 		w.WriteHeader(http.StatusOK)

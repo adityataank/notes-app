@@ -1,4 +1,4 @@
-import { API_KEY } from "../constants";
+import { API_KEY, FREE_ROUTES } from "../constants";
 import { cookies } from "../cookies";
 
 const headers = () => {
@@ -14,7 +14,8 @@ const headers = () => {
 
 const handleResponse = async (res: Response) => {
   const data = await res.json();
-  if (res.status === 401) {
+
+  if (res.status === 401 && !FREE_ROUTES.includes(location.pathname)) {
     cookies.setCookie("userToken", "");
     return location.replace("/sign-in");
   }
@@ -41,7 +42,26 @@ const postRequestHandler = async (url: string, payload: unknown) => {
   return response;
 };
 
+const patchRequestHandler = async (url: string, payload: unknown) => {
+  const response = await fetch(url, {
+    method: "PATCH",
+    headers: headers(),
+    body: JSON.stringify(payload),
+  }).then(handleResponse);
+  return response;
+};
+
+const deleteRequestHandler = async (url: string) => {
+  const response = await fetch(url, {
+    method: "DELETE",
+    headers: headers(),
+  }).then(handleResponse);
+  return response;
+};
+
 export const REQUEST = {
   get: getRequestHandler,
   post: postRequestHandler,
+  patch: patchRequestHandler,
+  delete: deleteRequestHandler,
 };

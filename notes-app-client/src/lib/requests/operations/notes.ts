@@ -3,7 +3,7 @@ import { API_ENDPOINTS } from "../routes";
 
 export const getNotes = async () => {
   try {
-    const url = API_ENDPOINTS.get_notes();
+    const url = API_ENDPOINTS.notes();
     const data = await REQUEST.get(url);
     return data?.notes ?? [];
   } catch (err) {

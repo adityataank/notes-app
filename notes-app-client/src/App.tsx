@@ -31,7 +31,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-      <Toaster position="top-right" />
+      <Toaster position="top-right" duration={2500} />
     </>
   );
 }

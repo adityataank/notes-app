@@ -37,8 +37,10 @@ export type HeaderProps = {
   type?: "note" | "default";
   title?: string;
   showSave?: boolean;
+  showDelete?: boolean;
   onBack?: () => void;
   onSave?: () => void;
+  onDelete?: () => void;
 };
 
 export type NewNoteProps = {
@@ -66,5 +68,7 @@ export type AlertDrawerProps = {
   setOpen: Dispatch<SetStateAction<boolean>>;
   title?: string;
   description: string;
+  primaryButtonText?: string;
+  isDestructive?: boolean;
   onConfirmation: () => void;
 };

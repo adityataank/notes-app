@@ -16,22 +16,33 @@ function AlertDrawer({
   setOpen,
   title = "Are you sure?",
   description = "",
+  primaryButtonText = "Yes",
+  isDestructive = false,
   onConfirmation = () => {},
 }: AlertDrawerProps) {
+
+  const btnVariant = isDestructive ? "destructive" : "default";
+
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerContent className="outline-none max-w-3xl md:left-[calc((100vw-768px)/2)] md:top-2/3">
         <div className="mx-auto w-full max-w-sm md:m-auto">
           <DrawerHeader>
             <DrawerTitle className="text-center">{title}</DrawerTitle>
-            <DrawerDescription className="text-center">{description}</DrawerDescription>
+            <DrawerDescription className="text-center">
+              {description}
+            </DrawerDescription>
           </DrawerHeader>
           <DrawerFooter className="flex flex-row">
             <DrawerClose asChild className="flex-1">
               <Button variant="outline">Cancel</Button>
             </DrawerClose>
-            <Button className="flex-1" onClick={onConfirmation}>
-              Yes
+            <Button
+              className="flex-1"
+              onClick={onConfirmation}
+              variant={btnVariant}
+            >
+              {primaryButtonText}
             </Button>
           </DrawerFooter>
         </div>
