@@ -51,6 +51,7 @@ func (app *application) initVariables() {
 	flag.IntVar(&app.config.port, "port", 8000, "Port for server")
 	flag.StringVar(&app.config.env, "env", "development", "Environment")
 	flag.StringVar(&app.config.dsn, "dsn", "", "DSN for DB")
-	flag.StringVar(&auth.SecretKey, "secretKey", "", "Secret key for JWT")
+	flag.StringVar(&auth.Keys.JwtKey, "jwtKey", "", "Secret key for JWT")
+	flag.StringVar(&auth.Keys.ApiKey, "apiKey", "", "API key for server")
 	flag.Parse()
 }

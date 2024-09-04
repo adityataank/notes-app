@@ -3,7 +3,7 @@ testdata_dir = "testdata"
 tmp_dir = "tmp"
 
 [build]
-  args_bin = ["-dsn='user=postgres.wpieebfyubinkuxcfwwk password=Notes-app-g0 host=aws-0-ap-south-1.pooler.supabase.com port=6543 dbname=postgres'", "-secretKey='f4a8d1b8e72d3c6e4e6a5b8c3d27e9f9c42b8f7d2a3c5e6f8b4d5a8e7c2b6a9f'"]
+  args_bin = ["-dsn='user=postgres.wpieebfyubinkuxcfwwk password=Notes-app-g0 host=aws-0-ap-south-1.pooler.supabase.com port=6543 dbname=postgres'", "-jwtKey='f4a8d1b8e72d3c6e4e6a5b8c3d27e9f9c42b8f7d2a3c5e6f8b4d5a8e7c2b6a9f'", "-apiKey='a3d5f9b8e4c7a2d4f6b9e8c1d3f7a4b6'"]
   bin = "./tmp/main"
   cmd = "go build -o ./tmp/main ./cmd/server"
   delay = 1000

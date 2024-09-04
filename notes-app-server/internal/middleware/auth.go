@@ -36,3 +36,18 @@ func AuthMiddleware(next http.Handler) http.Handler {
 		}
 	})
 }
+
+func ApiAuthMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		isOptions := auth.EnableCors(w, r)
+		if isOptions {
+			return
+		}
+		apiKey := auth.CheckApiKey(r)
+		if !apiKey {
+			helpers.WriteError(w, http.StatusUnauthorized, "Unauthorized access")
+		} else {
+			next.ServeHTTP(w, r)
+		}
+	})
+}

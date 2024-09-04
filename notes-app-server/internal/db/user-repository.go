@@ -12,7 +12,7 @@ func (repo *UserReopsitory) CreateUser(user *models.User) error {
 	if err != nil {
 		return err
 	}
-	stmt := `INSERT into "Users" (name, email, password_hash) values ($1, $2, $3)`
+	stmt := `INSERT INTO "Users" (name, email, password_hash) VALUES ($1, $2, $3)`
 	_, err = Storage.Db.Exec(stmt, user.Name, user.Email, passwordHash)
 	if err != nil {
 		return err
@@ -22,7 +22,7 @@ func (repo *UserReopsitory) CreateUser(user *models.User) error {
 
 func (repo *UserReopsitory) GetUserByEmail(email string) (*models.User, error) {
 	user := &models.User{}
-	stmt := `SELECT id, name, email, password_hash, created_at from "Users" where email = $1`
+	stmt := `SELECT id, name, email, password_hash, created_at FROM "Users" WHERE email = $1`
 	row := Storage.Db.QueryRow(stmt, email)
 	err := row.Scan(&user.ID, &user.Name, &user.Email, &user.PasswordHash, &user.CreatedAt)
 	if err != nil {

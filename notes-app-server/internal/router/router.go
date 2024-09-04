@@ -22,5 +22,5 @@ func Router() http.Handler {
 
 	mux.Handle("/api/v1/", http.StripPrefix("/api/v1", v1))
 
-	return middleware.RequestLogger(mux)
+	return middleware.ApiAuthMiddleware(middleware.RequestLogger(mux))
 }

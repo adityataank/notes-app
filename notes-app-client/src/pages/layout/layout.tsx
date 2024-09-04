@@ -13,18 +13,24 @@ function Layout() {
     if (renderOutlet) {
       return;
     }
+    const userToken = cookies.getCookie("userToken");
     if (isProtectedRoute(pathname)) {
-      const authToken = cookies.getCookie("authToken");
-      if (!authToken) {
-        // navigate("/sign-in");
+      if (!userToken) {
+        navigate("/sign-in");
       }
-      setRenderOutlet(true);
     } else {
-      setRenderOutlet(true);
+      if (userToken) {
+        navigate("/notes");
+      }
     }
+    setRenderOutlet(true);
   }, [pathname, navigate, renderOutlet]);
 
-  return <div className="h-dvh max-w-3xl mx-auto md:border md:border-x-primary/20">{renderOutlet && <Outlet />}</div>;
+  return (
+    <div className="h-dvh max-w-3xl mx-auto md:border md:border-x-primary/20">
+      {renderOutlet && <Outlet />}
+    </div>
+  );
 }
 
 export default Layout;

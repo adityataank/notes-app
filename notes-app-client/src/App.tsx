@@ -10,24 +10,29 @@ import FilteredNotes from "./pages/notes/filtered-notes";
 import NewNotePage from "./pages/notes/new-note";
 import NotePage from "./pages/notes/note";
 
+import { Toaster } from "./components/ui/sonner";
+
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Navigate to={"/notes"} />} />
-          <Route path="notes" element={<NotesLayout />}>
-            <Route index element={<NotesPage />} />
-            <Route path="folder/:folder" element={<FilteredNotes />} />
-            <Route path="new" element={<NewNotePage />} />
-            <Route path=":id" element={<NotePage />} />
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Navigate to={"/notes"} />} />
+            <Route path="notes" element={<NotesLayout />}>
+              <Route index element={<NotesPage />} />
+              <Route path="folder/:folder" element={<FilteredNotes />} />
+              <Route path="new" element={<NewNotePage />} />
+              <Route path=":id" element={<NotePage />} />
+            </Route>
+            <Route path="sign-in" element={<SignInPage />} />
+            <Route path="sign-up" element={<SignUpPage />} />
+            <Route path="reset-password" element={<ResetPassword />} />
           </Route>
-          <Route path="sign-in" element={<SignInPage />} />
-          <Route path="sign-up" element={<SignUpPage />} />
-          <Route path="reset-password" element={<ResetPassword />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
+      <Toaster position="top-right" />
+    </>
   );
 }
 

@@ -15,13 +15,18 @@ type Claims struct {
 	jwt.RegisteredClaims
 }
 
-var SecretKey string
+type SecretKeys struct {
+	JwtKey string
+	ApiKey string
+}
+
+var Keys = &SecretKeys{}
 
 func GenerateToken(user *models.User) (string, error) {
 	claims := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"user_id": user.ID,
 	})
-	tokenString, err := claims.SignedString([]byte(SecretKey))
+	tokenString, err := claims.SignedString([]byte(Keys.JwtKey))
 	if err != nil {
 		logger.ErrorLog(err.Error())
 		return "", err
@@ -33,7 +38,7 @@ func GenerateToken(user *models.User) (string, error) {
 func VerifyToken(tokenString string) (*Claims, error) {
 	claims := &Claims{}
 	token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
-		return []byte(SecretKey), nil
+		return []byte(Keys.JwtKey), nil
 	})
 
 	if err != nil {
@@ -53,4 +58,20 @@ func VerifyToken(tokenString string) (*Claims, error) {
 func GetUserFromRequest(r *http.Request) int {
 	userId := r.Context().Value(constants.CTX_USER_ID)
 	return userId.(int)
+}
+
+func CheckApiKey(r *http.Request) bool {
+	key := r.Header.Get("Api-Key")
+	return (key != "" && key == Keys.ApiKey)
+}
+
+func EnableCors(w http.ResponseWriter, r *http.Request) bool {
+	w.Header().Set("Access-Control-Allow-Origin", "http://localhost:5173")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Api-Key, Content-Type, Authorization")
+	if r.Method == "OPTIONS" {
+		w.WriteHeader(http.StatusOK)
+		return true
+	}
+	return false
 }

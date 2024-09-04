@@ -35,7 +35,7 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 			}
 		} else {
 			logger.ServerError(err)
-			helpers.WriteError(w, http.StatusInternalServerError, "Failed to create user.")
+			helpers.WriteError(w, http.StatusInternalServerError, "Failed to create a new user.")
 		}
 		return
 	}

@@ -1,8 +1,20 @@
 import Image from "@/components/ui/image";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
+
+import { cookies } from "@/lib/cookies";
 
 import LogoutIcon from "@/assets/logout-bulk.svg";
 
 function DefaultHeader() {
+
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    cookies.setCookie("userToken", "");
+    toast.success("Logged out successfully!");
+    navigate("/sign-in");
+  };
+
   return (
     <>
       <h2 className="text-black text-2xl font-semibold">notable.</h2>
@@ -12,6 +24,7 @@ function DefaultHeader() {
         height={24}
         alt="logout"
         className="cursor-pointer transition-transform hover:translate-x-1"
+        onClick={handleLogout}
       />
     </>
   );

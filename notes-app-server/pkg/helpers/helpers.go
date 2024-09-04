@@ -20,9 +20,7 @@ func ReadJSON(w http.ResponseWriter, r *http.Request, payload any) error {
 func WriteJSON(w http.ResponseWriter, statusCode int, data any) {
 	w.Header().Add("Content-Type", "application/json")
 	w.WriteHeader(statusCode)
-	response := make(map[string]any)
-	response["data"] = data
-	err := json.NewEncoder(w).Encode(response)
+	err := json.NewEncoder(w).Encode(data)
 	if err != nil {
 		logger.ServerError(err)
 	}

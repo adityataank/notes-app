@@ -7,7 +7,5 @@ import (
 )
 
 func HealthCheckRouter(mux *http.ServeMux) {
-
 	mux.HandleFunc("GET /health-check", handler.HealthCheck)
-
 }
