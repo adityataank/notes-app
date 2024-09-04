@@ -4,12 +4,16 @@ import { Children } from "react";
 import NewNote from "./new-note";
 import Search from "../search";
 import Note from "./note";
+import Image from "../../ui/image";
+
+import { useNoteStore } from "@/store/note-store";
 
 import ScribbledArrowPointerIcon from "@/assets/scribbled-arrow-pointer.svg";
-import Image from "../../ui/image";
+import { NoteProps } from "@/lib/types";
 
 type ColumnProps = {
   type: "even" | "odd";
+  notes: NoteProps[];
 };
 
 const EmptyNotes = () => (
@@ -29,39 +33,41 @@ const EmptyNotes = () => (
   </div>
 );
 
-const Column = ({ type }: ColumnProps) => {
+const Column = ({ type, notes = [] }: ColumnProps) => {
   const condition = type === "odd";
   return (
     <div className="h-fit">
       {Children.toArray(
-        Array(20)
-          .fill(0)
-          .map(
-            (_, index) =>
-              Boolean(index % 2) === condition && (
-                <Note id={index} title="" content="" />
-              )
-          )
+        notes.map(
+          (note, index) =>
+            Boolean(index % 2) === condition && <Note {...note} />
+        )
       )}
     </div>
   );
 };
 
-const SHOW_NOTES = false; // HARD CODED !!!
+const GridLayout = ({ notes }: { notes: NoteProps[] }) => (
+  <div className="mt-6 grid grid-cols-2 gap-4 overflow-auto h-[calc(100dvh-12.5rem)] rounded-2xl pb-24 no-scrollbar">
+    <Column notes={notes} type="even" />
+    <Column notes={notes} type="odd" />
+  </div>
+);
 
 function Notes() {
+  const { notes, fetchingNotes } = useNoteStore();
+  const SHOW_NOTES = notes?.length;
   return (
     <div className="">
       <Search disabled={!SHOW_NOTES} />
       {/* <Folders /> */}
-      {SHOW_NOTES ? (
-        <div className="mt-6 grid grid-cols-2 gap-4 overflow-auto h-[calc(100dvh-12.5rem)] rounded-2xl pb-24 no-scrollbar">
-          <Column type="even" />
-          <Column type="odd" />
-        </div>
-      ) : (
-        <EmptyNotes />
-      )}
+      {!fetchingNotes ? (
+        SHOW_NOTES ? (
+          <GridLayout notes={notes} />
+        ) : (
+          <EmptyNotes />
+        )
+      ) : null}
       <NewNote />
     </div>
   );

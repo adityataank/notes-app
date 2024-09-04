@@ -12,33 +12,33 @@ const headers = () => {
     : defaultHeaders;
 };
 
+const handleResponse = async (res: Response) => {
+  const data = await res.json();
+  if (res.status === 401) {
+    cookies.setCookie("userToken", "");
+    return location.replace("/sign-in");
+  }
+  if (res.ok) {
+    return data;
+  }
+  throw data;
+};
+
 const getRequestHandler = async (url: string) => {
   const response = await fetch(url, {
     method: "GET",
     headers: headers(),
-  }).then(async (res) => {
-    const data = await res.json();
-    if (res.ok) {
-      return data;
-    }
-    throw data;
-  });
+  }).then(handleResponse);
   return response;
 };
 
 const postRequestHandler = async (url: string, payload: unknown) => {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: headers(),
-      body: JSON.stringify(payload),
-    }).then(async (res) => {
-      const data = await res.json();
-      if (res.ok) {
-        return data;
-      }
-      throw data;
-    });
-    return response;
+  const response = await fetch(url, {
+    method: "POST",
+    headers: headers(),
+    body: JSON.stringify(payload),
+  }).then(handleResponse);
+  return response;
 };
 
 export const REQUEST = {

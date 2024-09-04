@@ -57,6 +57,8 @@ export type NoteProps = {
   title: string;
   content: string;
   id: number;
+  created_at: Date;
+  updated_at: Date;
 };
 
 export type AlertDrawerProps = {
