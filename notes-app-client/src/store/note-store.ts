@@ -7,12 +7,15 @@ type NoteStore = {
   notes: NoteProps[] | null;
   fetchingNotes: boolean;
   fetchAndSetNotes: () => void;
+  resetNotes: () => void;
 };
 
 export const useNoteStore = create<NoteStore>()((set) => ({
   notes: null,
 
   fetchingNotes: true,
+
+  resetNotes: () => set({ notes: null }),
 
   fetchAndSetNotes: async () => {
     set({ fetchingNotes: true });

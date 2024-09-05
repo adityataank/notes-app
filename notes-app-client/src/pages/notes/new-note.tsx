@@ -47,9 +47,14 @@ function NewNotePage() {
       fetchAndSetNotes();
       navigate("/notes");
       toast.success(response?.message ?? "Note created successfully!");
-    } catch (err) {
-      toast.error("Failed to create note.");
-      console.log(err);
+    } catch (err: unknown) {
+      if (err && typeof err === "object" && "error" in err) {
+        toast.error(
+          (err as { error: string }).error ?? "Failed to create note."
+        );
+      } else {
+        console.log("Error while creating a note.", err);
+      }
     }
   };
 
