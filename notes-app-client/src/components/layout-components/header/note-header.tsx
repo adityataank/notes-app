@@ -1,8 +1,8 @@
 import Image from "@/components/ui/image";
 
-import BackIcon from "@/assets/back-linear.svg";
-import TickIcon from "@/assets/tick.svg";
-import DeleteIcon from "@/assets/trash-bulk.svg";
+import BackIcon from "/back-linear.svg";
+import TickIcon from "/tick.svg";
+import DeleteIcon from "/trash-bulk.svg";
 
 import { HeaderProps } from "@/lib/types";
 

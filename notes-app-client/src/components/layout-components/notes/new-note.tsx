@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 import Image from "../../ui/image";
 
-import AddIcon from "@/assets/add-linear.svg";
+import AddIcon from "/add-linear.svg";
 
 function NewNote() {
   const vibrate = () => {

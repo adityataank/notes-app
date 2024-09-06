@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { cookies } from "@/lib/cookies";
 import { useNoteStore } from "@/store/note-store";
 
-import LogoutIcon from "@/assets/logout-bulk.svg";
+import LogoutIcon from "/logout-bulk.svg";
 
 function DefaultHeader() {
   const navigate = useNavigate();

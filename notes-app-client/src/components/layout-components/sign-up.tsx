@@ -36,11 +36,11 @@ function SignUp() {
   const createAccount = (e: React.FormEvent<HTMLFormElement>) => {
     if (e) {
       e.preventDefault();
-      startLoading();
       try {
         if (formData.password !== formData.confirm_password) {
           return toast.warning("Ensure both passwords are the same.");
         }
+        startLoading();
         const url = API_ENDPOINTS.create_user();
         const promise = REQUEST.post(url, formData);
         toast.promise(promise, {

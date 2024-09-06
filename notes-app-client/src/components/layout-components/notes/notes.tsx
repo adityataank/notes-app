@@ -8,7 +8,7 @@ import Image from "../../ui/image";
 
 import { useNoteStore } from "@/store/note-store";
 
-import ScribbledArrowPointerIcon from "@/assets/scribbled-arrow-pointer.svg";
+import ScribbledArrowPointerIcon from "/scribbled-arrow-pointer.svg";
 import { NoteProps } from "@/lib/types";
 import Loader from "@/components/ui/loader";
 

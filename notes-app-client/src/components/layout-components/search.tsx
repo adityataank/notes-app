@@ -3,7 +3,7 @@ import { toast } from "sonner";
 
 import Image from "../ui/image";
 
-import SearchIcon from "@/assets/search-linear.svg";
+import SearchIcon from "/search-linear.svg";
 import { cn } from "@/lib/utils";
 
 function Search({ disabled = false }: SearchProps) {

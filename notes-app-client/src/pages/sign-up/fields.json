@@ -3,7 +3,7 @@
         "name": "name",
         "title": "Name",
         "placeholder": "Your name",
-        "icon": "/src/assets/user-bulk.svg",
+        "icon": "/user-bulk.svg",
         "type": "text",
         "required": true
     },
@@ -11,7 +11,7 @@
         "name": "email",
         "title": "Enter a correct email",
         "placeholder": "Your email",
-        "icon": "/src/assets/email-bulk.svg",
+        "icon": "/email-bulk.svg",
         "required": true,
         "type": "email",
         "pattern": "^[\\w.\\-]+@[a-zA-Z\\d.\\-]+\\.[a-zA-Z]{2,}$"
@@ -20,7 +20,7 @@
         "name": "password",
         "title": "Password",
         "placeholder": "Password",
-        "icon": "/src/assets/password-bulk.svg",
+        "icon": "/password-bulk.svg",
         "type": "password",
         "required": true
     },
@@ -28,7 +28,7 @@
         "name": "confirm_password",
         "title": "Name",
         "placeholder": "Confirm Password",
-        "icon": "/src/assets/password-bulk.svg",
+        "icon": "/password-bulk.svg",
         "type": "password",
         "required": true
     }
