@@ -19,8 +19,8 @@ function AlertDrawer({
   primaryButtonText = "Yes",
   isDestructive = false,
   onConfirmation = () => {},
+  isLoading = false,
 }: AlertDrawerProps) {
-
   const btnVariant = isDestructive ? "destructive" : "default";
 
   return (
@@ -41,6 +41,7 @@ function AlertDrawer({
               className="flex-1"
               onClick={onConfirmation}
               variant={btnVariant}
+              loading={isLoading}
             >
               {primaryButtonText}
             </Button>

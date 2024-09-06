@@ -1,4 +1,6 @@
 import { Children, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 import RouteLink from "@/components/ui/route-link";
 import Input from "@/components/ui/input";
@@ -8,8 +10,8 @@ import { type SignUpForm } from "@/lib/types";
 import FieldsJSON from "@/pages/sign-up/fields.json";
 import { API_ENDPOINTS } from "@/lib/requests/routes";
 import { REQUEST } from "@/lib/requests/request";
-import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
+
+import { useLoading } from "@/lib/hooks/useLoading";
 
 function SignUp() {
   const [formData, setFormData] = useState<SignUpForm>({
@@ -18,6 +20,8 @@ function SignUp() {
     password: "",
     confirm_password: "",
   });
+
+  const [loading, startLoading, stopLoading] = useLoading();
 
   const navigate = useNavigate();
 
@@ -32,6 +36,7 @@ function SignUp() {
   const createAccount = (e: React.FormEvent<HTMLFormElement>) => {
     if (e) {
       e.preventDefault();
+      startLoading();
       try {
         if (formData.password !== formData.confirm_password) {
           return toast.warning("Ensure both passwords are the same.");
@@ -49,6 +54,7 @@ function SignUp() {
           error: (data) => {
             return data?.error ?? "Unable to sign up.";
           },
+          finally: () => stopLoading(),
         });
       } catch (err) {
         console.log("Error while creating a new user", err);
@@ -68,7 +74,7 @@ function SignUp() {
             <Input onChange={handleOnChange} {...field} />
           ))
         )}
-        <Button variant={"primary"} type="submit">
+        <Button variant={"primary"} type="submit" disabled={loading}>
           Create account
         </Button>
       </form>

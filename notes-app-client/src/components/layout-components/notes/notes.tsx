@@ -10,6 +10,7 @@ import { useNoteStore } from "@/store/note-store";
 
 import ScribbledArrowPointerIcon from "@/assets/scribbled-arrow-pointer.svg";
 import { NoteProps } from "@/lib/types";
+import Loader from "@/components/ui/loader";
 
 type ColumnProps = {
   type: "even" | "odd";
@@ -40,7 +41,9 @@ const Column = ({ type, notes = [] }: ColumnProps) => {
       {Children.toArray(
         notes.map(
           (note, index) =>
-            Boolean(index % 2) === condition && <Note {...note} />
+            Boolean(index % 2) === condition && (
+              <Note {...note} />
+            )
         )
       )}
     </div>
@@ -48,7 +51,7 @@ const Column = ({ type, notes = [] }: ColumnProps) => {
 };
 
 const GridLayout = ({ notes }: { notes: NoteProps[] }) => (
-  <div className="mt-6 grid grid-cols-2 gap-4 overflow-auto h-[calc(100dvh-12.5rem)] rounded-2xl pb-24 no-scrollbar">
+  <div className="mt-6 grid grid-cols-2 gap-4 h-full overflow-auto rounded-2xl pb-24 no-scrollbar">
     <Column notes={notes} type="even" />
     <Column notes={notes} type="odd" />
   </div>
@@ -58,7 +61,7 @@ function Notes() {
   const { notes, fetchingNotes } = useNoteStore();
   const SHOW_NOTES = notes?.length;
   return (
-    <div className="">
+    <div className="h-[calc(100dvh-11.5rem)]">
       <Search disabled={!SHOW_NOTES} />
       {/* <Folders /> */}
       {!fetchingNotes ? (
@@ -67,7 +70,9 @@ function Notes() {
         ) : (
           <EmptyNotes />
         )
-      ) : null}
+      ) : (
+        <Loader text="Grabbing your thoughts..." />
+      )}
       <NewNote />
     </div>
   );

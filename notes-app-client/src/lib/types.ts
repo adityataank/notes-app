@@ -41,6 +41,7 @@ export type HeaderProps = {
   onBack?: () => void;
   onSave?: () => void;
   onDelete?: () => void;
+  showLoader?: boolean;
 };
 
 export type NewNoteProps = {
@@ -59,8 +60,8 @@ export type NoteProps = {
   title: string;
   content: string;
   id: number;
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
 };
 
 export type AlertDrawerProps = {
@@ -71,4 +72,5 @@ export type AlertDrawerProps = {
   primaryButtonText?: string;
   isDestructive?: boolean;
   onConfirmation: () => void;
+  isLoading?: boolean;
 };

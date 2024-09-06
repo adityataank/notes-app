@@ -1,10 +1,18 @@
 import { SearchProps } from "@/lib/types";
+import { toast } from "sonner";
+
 import Image from "../ui/image";
 
 import SearchIcon from "@/assets/search-linear.svg";
 import { cn } from "@/lib/utils";
 
 function Search({ disabled = false }: SearchProps) {
+  const handleClick = (e: React.MouseEvent<HTMLInputElement>) => {
+    e.stopPropagation();
+    e.preventDefault();
+    toast.info("Feature under development.")
+  };
+
   return (
     <div
       className={cn(
@@ -22,6 +30,7 @@ function Search({ disabled = false }: SearchProps) {
       <input
         disabled={disabled}
         placeholder="Search for notes"
+        onMouseDown={handleClick}
         className={
           "w-full h-full bg-inherit rounded-[inherit] outline-none px-14 font-medium disabled:cursor-not-allowed"
         }

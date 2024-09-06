@@ -13,11 +13,14 @@ import { useNavigate } from "react-router-dom";
 import { API_ENDPOINTS } from "@/lib/requests/routes";
 import { REQUEST } from "@/lib/requests/request";
 
+import { useLoading } from "@/lib/hooks/useLoading";
+
 function SignIn() {
   const [formData, setFormData] = useState<SignInForm>({
     email: "",
     password: "",
   });
+  const [loading, startLoading, stopLoading] = useLoading();
 
   const navigate = useNavigate();
 
@@ -30,6 +33,7 @@ function SignIn() {
   };
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    startLoading();
     if (e) {
       e.preventDefault();
       try {
@@ -45,6 +49,7 @@ function SignIn() {
           error: (data) => {
             return data?.error ?? "Unable to log in.";
           },
+          finally: () => stopLoading(),
         });
       } catch (err) {
         console.log("Error while logging in", err);
@@ -64,10 +69,11 @@ function SignIn() {
             <Input onChange={handleOnChange} {...field} />
           ))
         )}
-        <RouteLink path="/reset-password" className="justify-self-start">
+        {/* TODO FEATURE */}
+        {/* <RouteLink path="/reset-password" className="justify-self-start">
           Forgot Password?
-        </RouteLink>
-        <Button variant={"primary"} type="submit">
+        </RouteLink> */}
+        <Button variant={"primary"} type="submit" disabled={loading}>
           Sign in
         </Button>
       </form>

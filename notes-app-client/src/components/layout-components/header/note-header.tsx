@@ -5,8 +5,9 @@ import TickIcon from "@/assets/tick.svg";
 import DeleteIcon from "@/assets/trash-bulk.svg";
 
 import { HeaderProps } from "@/lib/types";
-import { cn } from "@/lib/utils";
+
 import { useGoBack } from "@/lib/hooks/useGoBack";
+import SpinnerIcon from "@/components/icon/spinner";
 
 function NoteHeader({
   onBack,
@@ -15,6 +16,7 @@ function NoteHeader({
   onSave = () => {},
   onDelete = () => {},
   title = "",
+  showLoader = false,
 }: HeaderProps) {
   const back = useGoBack();
 
@@ -41,17 +43,20 @@ function NoteHeader({
           className="ml-auto cursor-pointer"
         />
       )}
-      <Image
-        src={TickIcon}
-        width={24}
-        height={24}
-        alt="tick"
-        onClick={onSave}
-        className={cn(
-          "opacity-0 invisible cursor-pointer transition-[all] translate-y-2 duration-400 hidden",
-          showSave && "opacity-100 visible translate-y-0 block"
-        )}
-      />
+      {showSave ? (
+        showLoader ? (
+          <SpinnerIcon color="#000000" size={24} />
+        ) : (
+          <Image
+            src={TickIcon}
+            width={24}
+            height={24}
+            alt="tick"
+            onClick={onSave}
+            className="cursor-pointer"
+          />
+        )
+      ) : null}
     </>
   );
 }

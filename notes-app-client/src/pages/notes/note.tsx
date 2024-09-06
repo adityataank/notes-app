@@ -12,28 +12,30 @@ import { REQUEST } from "@/lib/requests/request";
 import { API_ENDPOINTS } from "@/lib/requests/routes";
 
 import { useNoteStore } from "@/store/note-store";
+import { useLoading } from "@/lib/hooks/useLoading";
 
 const DEFAULT_STATE = {
   title: "",
   content: "",
-  id: "",
+  id: 0,
   created_at: "",
   updated_at: "",
 };
 
 function NotePage() {
   const [note, setNote] = useState(DEFAULT_STATE);
-
   const [initialNote, setInitialNote] = useState(DEFAULT_STATE);
-
   const [openAlert, setOpenAlert] = useState(false);
   const [openDeleteConfirmation, setOpenDeleteConfirmation] = useState(false);
+
+  const [deleting, startDeleting, stopDeleting] = useLoading();
+  const [saving, startSaving, stopSaving] = useLoading();
 
   const goBack = useGoBack();
 
   const { id } = useParams();
 
-  const { fetchAndSetNotes } = useNoteStore();
+  const { fetchAndSetNotes, selectedNote } = useNoteStore();
 
   const navigate = useNavigate();
 
@@ -55,6 +57,7 @@ function NotePage() {
 
   const saveNote = async () => {
     try {
+      startSaving();
       const url = API_ENDPOINTS.note(id ?? "");
       const response = await REQUEST.patch(url, note);
       fetchAndSetNotes();
@@ -63,11 +66,14 @@ function NotePage() {
     } catch (err) {
       toast.error("Failed to update note.");
       console.log(err);
+    } finally {
+      stopSaving();
     }
   };
 
   const deleteNote = async () => {
     try {
+      startDeleting();
       const url = API_ENDPOINTS.note(id ?? "");
       const response = await REQUEST.delete(url);
       fetchAndSetNotes();
@@ -76,26 +82,17 @@ function NotePage() {
     } catch (err) {
       toast.error("Failed to delete this note.");
       console.error(err);
+    } finally {
+      stopDeleting();
     }
   };
 
   useEffect(() => {
-    const fetchNote = async () => {
-      try {
-        const url = API_ENDPOINTS.note(id ?? "");
-        const noteData = await REQUEST.get(url);
-        if (noteData) {
-          setInitialNote({ ...noteData });
-          setNote({ ...noteData });
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    if (id) {
-      fetchNote();
+    if (id && selectedNote) {
+      setInitialNote(selectedNote);
+      setNote(selectedNote);
     }
-  }, [id]);
+  }, [id, selectedNote]);
 
   return (
     <div className="flex flex-col gap-6 h-[calc(100dvh-6rem)]">
@@ -111,6 +108,7 @@ function NotePage() {
         description="This note will be permanently deleted."
         primaryButtonText="Delete"
         onConfirmation={deleteNote}
+        isLoading={deleting}
         isDestructive
       />
       <Header
@@ -120,6 +118,7 @@ function NotePage() {
         onBack={onBack}
         onSave={saveNote}
         onDelete={() => setOpenDeleteConfirmation(true)}
+        showLoader={saving}
       />
       {initialNote.title ? (
         <>

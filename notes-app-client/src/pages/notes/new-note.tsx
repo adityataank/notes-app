@@ -12,6 +12,7 @@ import { REQUEST } from "@/lib/requests/request";
 import { API_ENDPOINTS } from "@/lib/requests/routes";
 
 import { useNoteStore } from "@/store/note-store";
+import { useLoading } from "@/lib/hooks/useLoading";
 
 function NewNotePage() {
   const [note, setNote] = useState({
@@ -23,6 +24,8 @@ function NewNotePage() {
   const { fetchAndSetNotes } = useNoteStore();
 
   const goBack = useGoBack();
+
+  const [loading, startLoading, stopLoading] = useLoading();
 
   const navigate = useNavigate();
 
@@ -42,6 +45,7 @@ function NewNotePage() {
 
   const saveNote = async () => {
     try {
+      startLoading();
       const url = API_ENDPOINTS.notes();
       const response = await REQUEST.post(url, note);
       fetchAndSetNotes();
@@ -55,6 +59,8 @@ function NewNotePage() {
       } else {
         console.log("Error while creating a note.", err);
       }
+    } finally {
+      stopLoading();
     }
   };
 
@@ -66,6 +72,7 @@ function NewNotePage() {
         onBack={onBack}
         showSave={showSave}
         onSave={saveNote}
+        showLoader={loading}
       />
       <AlertDrawer
         open={openAlert}

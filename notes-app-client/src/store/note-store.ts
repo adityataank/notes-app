@@ -8,6 +8,8 @@ type NoteStore = {
   fetchingNotes: boolean;
   fetchAndSetNotes: () => void;
   resetNotes: () => void;
+  selectedNote: NoteProps | null;
+  setSelectedNote: (note: NoteProps) => void;
 };
 
 export const useNoteStore = create<NoteStore>()((set) => ({
@@ -23,4 +25,8 @@ export const useNoteStore = create<NoteStore>()((set) => ({
     set({ notes });
     set({ fetchingNotes: false });
   },
+
+  selectedNote: null,
+
+  setSelectedNote: (note: NoteProps) => set({ selectedNote: note }),
 }));
