@@ -2,6 +2,8 @@
 
 A full-stack note-taking application built with **React** for the frontend and **Go** for the backend. This app allows users to create, read, update, and delete notes, with user authentication for secure access and a clean, minimal user interface for ease of use.
 
+[Live demo here](https://notistry.netlify.app/)
+
 ## Features
 
 - **User Authentication**: Secure login and registration to manage access.
