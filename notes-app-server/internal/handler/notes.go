@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"net/http"
+	"strings"
 
 	"github.com/adityataank/notes-app/internal/db"
 	"github.com/adityataank/notes-app/internal/models"
@@ -17,6 +18,7 @@ func GetNotes(w http.ResponseWriter, r *http.Request) {
 	notes, err := db.Storage.Note.GetNotes(userId)
 	if err != nil {
 		helpers.WriteError(w, http.StatusInternalServerError, "Unable to fetch notes.")
+		return
 	}
 	response := map[string]any{"notes": notes}
 	helpers.WriteJSON(w, http.StatusOK, response)
@@ -99,4 +101,18 @@ func DeleteNote(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	helpers.WriteSuccessMessage(w, "Note deleted successfully!")
+}
+
+func SearchNotes(w http.ResponseWriter, r *http.Request) {
+	query := r.URL.Query().Get("query")
+	query = strings.ReplaceAll(query, " ", " & ")
+	userID := auth.GetUserFromRequest(r)
+	notes, err := db.Storage.Note.SearchNotes(query, userID)
+
+	if err != nil {
+		helpers.WriteError(w, http.StatusInternalServerError, "Unable to fetch notes.")
+		return
+	}
+	response := map[string]any{"notes": notes}
+	helpers.WriteJSON(w, http.StatusOK, response)
 }

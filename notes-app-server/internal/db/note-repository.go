@@ -69,3 +69,24 @@ func (repo *NoteRepository) DeleteNoteById(id int, userId int) error {
 	}
 	return nil
 }
+
+func (repo *NoteRepository) SearchNotes(query string, userId int) ([]*models.Notes, error) {
+	var notes []*models.Notes
+	stmt := `SELECT id, title, content, created_at, updated_at FROM "Notes" WHERE user_id = $1 and text_search @@ to_tsquery('english', $2);`
+	rows, err := Storage.Db.Query(stmt, userId, query)
+	if err != nil {
+		return nil, err
+	}
+
+	for rows.Next() {
+		note := &models.Notes{}
+		err := rows.Scan(&note.Id, &note.Title, &note.Content, &note.CreatedAt, &note.UpdatedAt)
+		if err != nil {
+			return nil, err
+		}
+		notes = append(notes, note)
+	}
+
+	defer rows.Close()
+	return notes, nil
+}

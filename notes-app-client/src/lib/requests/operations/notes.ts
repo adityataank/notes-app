@@ -10,3 +10,13 @@ export const getNotes = async () => {
     console.error(err);
   }
 };
+
+export const getNotesBySearch = async (q: string) => {
+  try {
+    const url = API_ENDPOINTS.search_notes(q);
+    const data = await REQUEST.get(url);
+    return data?.notes ?? [];
+  } catch (err) {
+    console.log(err);
+  }
+};

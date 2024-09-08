@@ -16,6 +16,7 @@ func NotesRouter(mux *http.ServeMux) {
 	notesMux.HandleFunc("GET /notes/{id}", handler.GetNote)
 	notesMux.HandleFunc("PATCH /notes/{id}", handler.UpdateNote)
 	notesMux.HandleFunc("DELETE /notes/{id}", handler.DeleteNote)
+	notesMux.HandleFunc("GET /notes/search", handler.SearchNotes)
 
 	mux.Handle("/notes", middleware.AuthMiddleware(notesMux))
 	mux.Handle("/notes/", middleware.AuthMiddleware(notesMux))

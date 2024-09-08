@@ -9,11 +9,12 @@ import LogoutIcon from "/logout-bulk.svg";
 
 function DefaultHeader() {
   const navigate = useNavigate();
-  const { resetNotes } = useNoteStore();
+  const { resetNotes, setSearchQuery } = useNoteStore();
   const handleLogout = () => {
     cookies.setCookie("userToken", "");
     toast.success("Logged out successfully!");
     resetNotes();
+    setSearchQuery("");
     navigate("/sign-in");
   };
 
