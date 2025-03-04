@@ -12,6 +12,7 @@ import { cookies } from "@/lib/cookies";
 import { useNavigate } from "react-router-dom";
 import { API_ENDPOINTS } from "@/lib/requests/routes";
 import { REQUEST } from "@/lib/requests/request";
+import { Analytics } from "@/lib/analytics";
 
 import { useLoading } from "@/lib/hooks/useLoading";
 
@@ -33,6 +34,7 @@ function SignIn() {
   };
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    Analytics.track("sign-in-click");
     startLoading();
     if (e) {
       e.preventDefault();
@@ -42,6 +44,7 @@ function SignIn() {
         toast.promise(promise, {
           loading: "Logging in...",
           success: (data) => {
+            Analytics.track("user-signed-in");
             cookies.setCookie("userToken", data.token);
             navigate("/notes");
             return data?.message ?? "Logged in successfully!";

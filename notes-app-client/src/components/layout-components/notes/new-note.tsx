@@ -2,11 +2,14 @@ import { Link } from "react-router-dom";
 
 import Image from "../../ui/image";
 
+import { Analytics } from "@/lib/analytics";
+
 import AddIcon from "/add-linear.svg";
 
 function NewNote() {
   const vibrate = () => {
     navigator.vibrate(20);
+    Analytics.track("new-note-click");
   };
 
   return (

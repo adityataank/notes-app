@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 import { NoteProps } from "@/lib/types";
+import { Analytics } from "@/lib/analytics";
 
 import { useNoteStore } from "@/store/note-store";
 
@@ -11,6 +12,7 @@ function Note(props: NoteProps) {
 
   const handleClick = () => {
     setSelectedNote(props);
+    Analytics.track("view-note-click");
   };
 
   return (

@@ -1,13 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 
 import { isProtectedRoute } from "@/lib/auth";
 import { cookies } from "@/lib/cookies";
+import { Analytics } from "@/lib/analytics";
 
 function Layout() {
   const [renderOutlet, setRenderOutlet] = useState<boolean>(false);
   const { pathname } = useLocation();
   const navigate = useNavigate();
+
+  useLayoutEffect(() => {
+    Analytics.track("page-visit", {
+      page_name: "sign-in",
+    });
+  }, []);
 
   useEffect(() => {
     if (renderOutlet) {

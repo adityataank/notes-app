@@ -10,6 +10,7 @@ import AlertDrawer from "@/components/layout-components/alert-drawer";
 import { useGoBack } from "@/lib/hooks/useGoBack";
 import { REQUEST } from "@/lib/requests/request";
 import { API_ENDPOINTS } from "@/lib/requests/routes";
+import { Analytics } from "@/lib/analytics";
 
 import { useNoteStore } from "@/store/note-store";
 import { useLoading } from "@/lib/hooks/useLoading";
@@ -50,6 +51,7 @@ function NewNotePage() {
       const response = await REQUEST.post(url, note);
       fetchAndSetNotes();
       navigate("/notes");
+      Analytics.track("new-note-created");
       toast.success(response?.message ?? "Note created successfully!");
     } catch (err: unknown) {
       if (err && typeof err === "object" && "error" in err) {

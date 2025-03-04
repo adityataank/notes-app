@@ -10,6 +10,7 @@ import { type SignUpForm } from "@/lib/types";
 import FieldsJSON from "@/pages/sign-up/fields.json";
 import { API_ENDPOINTS } from "@/lib/requests/routes";
 import { REQUEST } from "@/lib/requests/request";
+import { Analytics } from "@/lib/analytics";
 
 import { useLoading } from "@/lib/hooks/useLoading";
 
@@ -34,6 +35,7 @@ function SignUp() {
   };
 
   const createAccount = (e: React.FormEvent<HTMLFormElement>) => {
+    Analytics.track("create-account-click");
     if (e) {
       e.preventDefault();
       try {
@@ -46,6 +48,7 @@ function SignUp() {
         toast.promise(promise, {
           loading: "Registering a new user...",
           success: (data) => {
+            Analytics.track("new-account-created");
             navigate("/sign-in");
             return data?.message
               ? data.message + " Please sign in."

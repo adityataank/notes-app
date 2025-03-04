@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { cookies } from "@/lib/cookies";
 import { useNoteStore } from "@/store/note-store";
 
+import { Analytics } from "@/lib/analytics";
+
 import LogoutIcon from "/logout-bulk.svg";
 
 function DefaultHeader() {
@@ -15,6 +17,7 @@ function DefaultHeader() {
     toast.success("Logged out successfully!");
     resetNotes();
     setSearchQuery("");
+    Analytics.track("logout-click");
     navigate("/sign-in");
   };
 
